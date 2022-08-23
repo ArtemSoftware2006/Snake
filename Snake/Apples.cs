@@ -12,14 +12,24 @@ namespace Snake
 {
     abstract class Apples
     {
-        Rectangle apple = new Rectangle();
-        Point Location;
-        Random rnd = new Random();
-
-        void SetLocation()
+       
+        protected Point location;
+        protected Random rnd = new Random();
+        abstract public Rectangle Apple
         {
-            Location.X = rnd.Next(1, 13) * 40;
-            Location.Y = rnd.Next(1, 13) * 40;
+            get;
+        }
+        protected Point Location
+        {
+            get { return location; }
+            set { location = value; }
+        }
+        abstract protected void CreateApple();
+
+        protected  void SetLocation()
+        {
+            location.X = rnd.Next(1, 13) * 40;
+            location.Y = rnd.Next(1, 13) * 40;
 
         }
         void CheckLocationApple()
@@ -34,14 +44,12 @@ namespace Snake
                 }
             }
         }
-        abstract public void CreateApple();
         public void AddApple()
         {
             SetLocation();
             CreateApple();
             Snake.GetLocationApple(Location);
         }
-        abstract public Rectangle GetApple();
         
     }
 }

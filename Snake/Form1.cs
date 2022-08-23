@@ -15,6 +15,22 @@ namespace Snake
 {
     public partial class Fm_game_place : Form
     {
+        List<string> ListMessages = new List<string>()
+        {
+            "Счёт: ",
+            "До начала игры: ",
+            "Игра окончена",
+        };
+        SmallApple apple = new SmallApple();
+        Snake snake = new Snake();
+        GameSpace pole;
+        Graphics g;
+        Bitmap bmp;
+        Pen pen = new Pen(Color.Black, 4.0F);
+        SolidBrush brash = new SolidBrush(Color.Red);
+        int countDown;
+        int pointsForSmallApple = 1;
+        int allPoints = 0;
         enum Direction
         {
             Up,
@@ -26,36 +42,14 @@ namespace Snake
         {
             InitializeComponent();
             pole = new GameSpace(pictureBox1.Width, pictureBox1.Height);
-            index = 3;
             StartingTimers();
             Beginning_game();
         }
-        
         void StartingTimers()
         {
+            countDown = 3;
             timer_starting_game.Interval = 1000;
             timer_starting_game.Start();
-        }
-        
-
-        List<string> ListMessages = new List<string>()
-        {
-            "Счёт: 0",
-            "До начала игры: ",
-            "Игра окончена",
-        };
-        Apple apple = new Apple();
-        Snake snake = new Snake();
-        GameSpace pole;
-        Graphics g;
-        Bitmap bmp;
-        Pen pen = new Pen(Color.Black, 4.0F);
-        SolidBrush brash = new SolidBrush(Color.Red);
-        int index;
-        void Game_Over()
-        {
-            timer_game_cycle.Stop();
-            LabelScore.Text = ListMessages[2];
         }
         private void Beginning_game()
         {
@@ -75,20 +69,22 @@ namespace Snake
                 g.DrawLine(pen, pole.GetVerticalsLines()[i, 0], pole.GetVerticalsLines()[i, 1]);
             }
         }
-        
-
         private void timer_starting_game_Tick(object sender, EventArgs e)
         {
-            LabelScore.Text = $"{ListMessages[1] + index}";
-            if (index == 0)
+            LabelScore.Text = $"{ListMessages[1] + countDown}";
+            if (countDown == 0)
             {
                 timer_starting_game.Stop();
-                LabelScore.Text = ListMessages[0];
+                LabelScore.Text = ListMessages[0] + "0";
                 timer_game_cycle.Start();
             }
-            index--;
+            countDown--;
         }
-
+        void Game_Over()
+        {
+            timer_game_cycle.Stop();
+            LabelScore.Text = ListMessages[2];
+        }
         private void Fm_game_place_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyValue)
@@ -118,29 +114,29 @@ namespace Snake
             {
                 case (int)Direction.Up:
                     g.FillRectangles(brash, snake.SnakeUp());
-                    snake.GetLastDirection((int)Direction.Up);
                     break;
                 case (int)Direction.Down:
                     g.FillRectangles(brash, snake.SnakeDown());
-                    snake.GetLastDirection((int)Direction.Down);
                     break;
                 case (int)Direction.Left:
                     g.FillRectangles(brash, snake.SnakeLeft());
-                    snake.GetLastDirection((int)Direction.Left);
                     break;
                 case (int)Direction.Right:
                     g.FillRectangles(brash, snake.SnakeRight());
-                    snake.GetLastDirection((int)Direction.Right);
                     break;
                 default:
                     break;
             }
             if (snake.IsSnakeEatApple())
             {
+                allPoints += pointsForSmallApple;
+                LabelScore.Text = ListMessages[0] + Convert.ToString(allPoints);
                 apple.AddApple();
             }
-            g.FillEllipse(brash, apple.GetApple());
+
+            g.FillEllipse(brash, apple.Apple);
             pictureBox1.Image = bmp;
+
             if (snake.CheckSnakeRIP())
             {
                 Game_Over();

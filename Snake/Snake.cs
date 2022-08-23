@@ -104,30 +104,14 @@ namespace Snake
                     break;
             };
         }
-        public void GetLastDirection(int direct)
-        {
-            switch (direct)
-            {
-                case (int)Direction.Up:
-                    BanDirect = Direction.Down;
-                    break;
-                case (int)Direction.Down:
-                    BanDirect = Direction.Up;
-                    break;
-                case (int)Direction.Left:
-                    BanDirect = Direction.Right;
-                    break;
-                case (int)Direction.Right:
-                    BanDirect = Direction.Left;
-                    break;
-                default:
-                    break;
-            }
-
-        }
         public int GetDerection()
         {
             return (int)direct;
+        }
+        Rectangle[] ConvertListSnakeToArray()
+        {
+            SnakeBody.CopyTo(ArrSnakeBody = new Rectangle[SnakeLenght]);
+            return ArrSnakeBody;
         }
         public Rectangle[] InitializingSnake()
         {
@@ -136,41 +120,44 @@ namespace Snake
                 SnakeBody.Add(new Rectangle(new Point(240 + (i * VALUE_SIDE_BLOCK), 240), SizeBlock));
                 LocationSnakeBody.Add( new Point(SnakeBody[i].X, SnakeBody[i].Y) );
             }
-            SnakeBody.CopyTo(ArrSnakeBody = new Rectangle[SnakeLenght]);
-            return ArrSnakeBody;
+            return ConvertListSnakeToArray();
         }
 
         public Rectangle[] SnakeUp()
         {
             SnakeBody.Insert(0, new Rectangle(new Point(SnakeBody[0].X, SnakeBody[0].Y - VALUE_SIDE_BLOCK),SizeBlock));
             LocationSnakeBody.Insert(0, new Point(SnakeBody[0].X, SnakeBody[0].Y));
+            BanDirect = Direction.Down;
             CheckEatSnakeApple();
-            SnakeBody.CopyTo(ArrSnakeBody = new Rectangle[SnakeLenght]);
-            return ArrSnakeBody;
+
+            return ConvertListSnakeToArray();
         }
         public Rectangle[] SnakeDown()
         {
             SnakeBody.Insert(0, new Rectangle(new Point(SnakeBody[0].X, SnakeBody[0].Y + VALUE_SIDE_BLOCK), SizeBlock));
             LocationSnakeBody.Insert(0, new Point(SnakeBody[0].X, SnakeBody[0].Y));
+            BanDirect = Direction.Up;
             CheckEatSnakeApple();
-            SnakeBody.CopyTo(ArrSnakeBody = new Rectangle[SnakeLenght]);
-            return ArrSnakeBody;
+
+            return ConvertListSnakeToArray();
         }
         public Rectangle[] SnakeLeft()
         {
             SnakeBody.Insert(0, new Rectangle(new Point(SnakeBody[0].X - VALUE_SIDE_BLOCK, SnakeBody[0].Y ), SizeBlock));
             LocationSnakeBody.Insert(0, new Point(SnakeBody[0].X, SnakeBody[0].Y));
+            BanDirect = Direction.Right;
             CheckEatSnakeApple();
-            SnakeBody.CopyTo(ArrSnakeBody = new Rectangle[SnakeLenght]);
-            return ArrSnakeBody;
+
+            return ConvertListSnakeToArray();
         }
         public Rectangle[] SnakeRight()
         {
             SnakeBody.Insert(0, new Rectangle(new Point(SnakeBody[0].X + VALUE_SIDE_BLOCK, SnakeBody[0].Y ), SizeBlock));
             LocationSnakeBody.Insert(0, new Point(SnakeBody[0].X, SnakeBody[0].Y));
+            BanDirect = Direction.Left;
             CheckEatSnakeApple();
-            SnakeBody.CopyTo(ArrSnakeBody = new Rectangle[SnakeLenght]);
-            return ArrSnakeBody;
+
+            return ConvertListSnakeToArray();
         }
     }
 }
