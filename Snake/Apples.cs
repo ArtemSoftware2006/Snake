@@ -24,13 +24,13 @@ namespace Snake
             get { return location; }
             set { location = value; }
         }
-        abstract protected void CreateApple();
+        abstract public void CreateApple();
 
         protected  void SetLocation()
         {
             location.X = rnd.Next(1, 13) * 40;
             location.Y = rnd.Next(1, 13) * 40;
-
+            Snake.GetLocationApple(Location);
         }
         void CheckLocationApple()
         {
@@ -44,11 +44,9 @@ namespace Snake
                 }
             }
         }
-        public void AddApple()
+        protected void AddApple()
         {
             SetLocation();
-            CreateApple();
-            Snake.GetLocationApple(Location);
         }
         
     }
