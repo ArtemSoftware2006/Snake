@@ -139,6 +139,7 @@ namespace Snake
 
             if (snake.CheckSnakeRIP())
             {
+
                 Game_Over();
             }
         }
