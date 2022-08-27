@@ -114,14 +114,13 @@ namespace Snake
             SnakeBody.CopyTo(ArrSnakeBody = new Rectangle[SnakeLenght]);
             return ArrSnakeBody;
         }
-        public Rectangle[] InitializingSnake()
+        public void InitializingSnake()
         {
             for (int i = 0; i < SnakeLenght; i++)
             {
                 SnakeBody.Add(new Rectangle(new Point(240 + (i * VALUE_SIDE_BLOCK), 240), SizeBlock));
                 LocationSnakeBody.Add( new Point(SnakeBody[i].X, SnakeBody[i].Y) );
             }
-            return ConvertListSnakeToArray();
         }
         public Rectangle[] GetSnake()
         {

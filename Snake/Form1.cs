@@ -61,7 +61,8 @@ namespace Snake
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             g = Graphics.FromImage(bmp);
             Initializingpole();
-            g.FillRectangles(brash, snake.InitializingSnake());
+            snake.InitializingSnake();
+            g.FillRectangles(brash, snake.GetSnake());
             smallApple.AddSmallAple();
             pictureBox1.Image = bmp;
             
@@ -137,7 +138,7 @@ namespace Snake
                 counterEatedApple++;
             }
         }
-        void CheckIsSnakeEatSmallApple()
+        void CheckIsSnakeEatApple()
         {
             if (snake.IsSnakeEatApple() || TimeForEatBigApple == 0.0F)
             {
@@ -186,7 +187,7 @@ namespace Snake
             GameOneCadr();
             IsAddBigApple();
             DisplayApple();
-            CheckIsSnakeEatSmallApple();
+            CheckIsSnakeEatApple();
             pictureBox1.Image = bmp;
             CheckIsSnakeRIP();
         }
@@ -195,7 +196,7 @@ namespace Snake
         {
             if (TimeForEatBigApple <= 0.0F)
             {
-                CheckIsSnakeEatSmallApple();
+                CheckIsSnakeEatApple();
             }
             GameOneCadr();
             bigApple.NextViewOfBigApple(ref bigApple);
