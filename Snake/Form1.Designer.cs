@@ -50,6 +50,8 @@ namespace Snake
             // 
             // LabelScore
             // 
+            this.LabelScore.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelScore.AutoSize = true;
             this.LabelScore.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.LabelScore.Location = new System.Drawing.Point(240, 9);
@@ -57,6 +59,8 @@ namespace Snake
             this.LabelScore.Size = new System.Drawing.Size(106, 41);
             this.LabelScore.TabIndex = 1;
             this.LabelScore.Text = "Счёт 0";
+            this.LabelScore.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.LabelScore.SizeChanged += new System.EventHandler(this.LabelScore_SizeChanged);
             // 
             // timer_game_cycle
             // 

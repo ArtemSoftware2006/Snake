@@ -15,6 +15,10 @@ namespace Snake
 {
     public partial class Fm_game_place : Form
     {
+        //TODO Глаза змейке
+        //Реализация ProgressBar
+        //Смерть змейки от поворота себе в хвост
+        //Переход к реализации Form2
         List<string> ListMessages = new List<string>()
         {
             "Счёт: ",
@@ -217,6 +221,11 @@ namespace Snake
             timer_game_cycle.Stop();
             timer_of_big_apple.Stop();
             LabelScore.Text = ListMessages[2];
+        }
+
+        private void LabelScore_SizeChanged(object sender, EventArgs e)
+        {
+            LabelScore.Left = this.Width / 2 - LabelScore.Width / 2;
         }
     }
 }
