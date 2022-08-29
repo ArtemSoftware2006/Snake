@@ -34,6 +34,7 @@ namespace Snake
             this.LabelScore = new System.Windows.Forms.Label();
             this.timer_game_cycle = new System.Windows.Forms.Timer(this.components);
             this.timer_starting_game = new System.Windows.Forms.Timer(this.components);
+            this.timer_of_big_apple = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -66,6 +67,10 @@ namespace Snake
             // 
             this.timer_starting_game.Tick += new System.EventHandler(this.timer_starting_game_Tick);
             // 
+            // timer_of_big_apple
+            // 
+            this.timer_of_big_apple.Tick += new System.EventHandler(this.timer_of_big_apple_Tick);
+            // 
             // Fm_game_place
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -90,6 +95,7 @@ namespace Snake
         private System.Windows.Forms.Label LabelScore;
         private System.Windows.Forms.Timer timer_game_cycle;
         private System.Windows.Forms.Timer timer_starting_game;
+        private System.Windows.Forms.Timer timer_of_big_apple;
     }
 }
 

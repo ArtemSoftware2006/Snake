@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Snake;
 
 namespace Snake
 {
@@ -19,7 +18,7 @@ namespace Snake
         { 
             get => apple; 
         }
-        protected override void CreateApple()
+        public override void CreateApple()
         {
             apple.Width = SIZE_APPLE;
             apple.Height = SIZE_APPLE;
@@ -27,7 +26,11 @@ namespace Snake
             apple.X = Location.X + SIZE_APPLE / 2 - 1;
             apple.Y = Location.Y + SIZE_APPLE / 2 - 1;
         }
-       
+       public void AddSmallAple()
+        {
+            base.AddApple();
+            CreateApple();
+        }
         
     }
 }
