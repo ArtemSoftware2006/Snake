@@ -18,18 +18,19 @@ namespace Snake
         { 
             get => apple; 
         }
-        public override void CreateApple()
+        public override void AddApple()
+        {
+            base.NewApple();
+            CreateSmallAple();
+        }
+       protected void CreateSmallAple()
         {
             apple.Width = SIZE_APPLE;
             apple.Height = SIZE_APPLE;
 
             apple.X = Location.X + SIZE_APPLE / 2 - 1;
             apple.Y = Location.Y + SIZE_APPLE / 2 - 1;
-        }
-       public void AddSmallAple()
-        {
-            base.AddApple();
-            CreateApple();
+           
         }
         
     }

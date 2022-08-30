@@ -23,9 +23,9 @@ namespace Snake
         {
             get => apple;
         }
-        public override void CreateApple()
+        public override void AddApple()
         {
-            base.AddApple();
+            base.NewApple();
             CreateSmallApple();
         }
         void CreateBigApple()

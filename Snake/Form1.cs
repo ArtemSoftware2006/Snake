@@ -67,9 +67,8 @@ namespace Snake
             Initializingpole();
             snake.InitializingSnake();
             g.FillRectangles(brash, snake.GetSnake());
-            smallApple.AddSmallAple();
+            smallApple.AddApple();
             pictureBox1.Image = bmp;
-            
         }
         void Initializingpole()
         {
@@ -90,27 +89,7 @@ namespace Snake
             }
             countDown--;
         }
-        
-        void SnakeMove()
-        {
-            switch (snake.GetDerection())
-            {
-                case (int)Direction.Up:
-                    snake.SnakeUp();
-                    break;
-                case (int)Direction.Down:
-                    snake.SnakeDown();
-                    break;
-                case (int)Direction.Left:
-                    snake.SnakeLeft();
-                    break;
-                case (int)Direction.Right:
-                    snake.SnakeRight();
-                    break;
-                default:
-                    break;
-            }
-        }
+       
         void Fm_game_place_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyValue)
@@ -131,11 +110,39 @@ namespace Snake
                     break;
             }
         }
+        
+        private void timer_game_cycle_Tick(object sender, EventArgs e)
+        {
+            SnakeMove();
+            GameOneCadr();
+            IsAddBigApple();
+            DisplayApple();
+            CheckIsSnakeEatApple();
+            pictureBox1.Image = bmp;
+            CheckIsSnakeRIP();
+        }
+        void DisplayApple()
+        {
+            if (AddBigappleFlag == true)
+            {
+                g.FillEllipse(brash, bigApple.Apple);
+            }
+            else
+            {
+                g.FillEllipse(brash, smallApple.Apple);
+            }
+        }
+        void GameOneCadr()
+        {
+            g.Clear(Color.White);
+            Initializingpole();
+            g.FillRectangles(brash, snake.GetSnake());
+        }
         void IsAddBigApple()
         {
             if (counterEatedApple % 2 == 0)
             {
-                bigApple.CreateApple();
+                bigApple.AddApple();
                 AddBigappleFlag = true;
                 timer_of_big_apple.Interval = 500;
                 timer_of_big_apple.Start();
@@ -155,7 +162,7 @@ namespace Snake
 
                     LabelScore.Text = ListMessages[0] + Convert.ToString(allPoints);
 
-                    smallApple.AddSmallAple();
+                    smallApple.AddApple();
                     AddBigappleFlag = false;
                 }
                 else
@@ -164,38 +171,30 @@ namespace Snake
                     LabelScore.Text = ListMessages[0] + Convert.ToString(allPoints);
                     counterEatedApple++;
 
-                    smallApple.AddSmallAple();
+                    smallApple.AddApple();
                 }
             }
         }
-        void DisplayApple()
+        void SnakeMove()
         {
-            if (AddBigappleFlag == true )
+            switch (snake.GetDerection())
             {
-                g.FillEllipse(brash, bigApple.Apple);
+                case (int)Direction.Up:
+                    snake.SnakeUp();
+                    break;
+                case (int)Direction.Down:
+                    snake.SnakeDown();
+                    break;
+                case (int)Direction.Left:
+                    snake.SnakeLeft();
+                    break;
+                case (int)Direction.Right:
+                    snake.SnakeRight();
+                    break;
+                default:
+                    break;
             }
-            else
-            {
-                g.FillEllipse(brash, smallApple.Apple);
-            }
         }
-        void GameOneCadr()
-        {
-            g.Clear(Color.White);
-            Initializingpole();
-            g.FillRectangles(brash, snake.GetSnake());
-        }
-        private void timer_game_cycle_Tick(object sender, EventArgs e)
-        {
-            SnakeMove();
-            GameOneCadr();
-            IsAddBigApple();
-            DisplayApple();
-            CheckIsSnakeEatApple();
-            pictureBox1.Image = bmp;
-            CheckIsSnakeRIP();
-        }
-        
         private void timer_of_big_apple_Tick(object sender, EventArgs e)
         {
             if (TimeForEatBigApple <= 0.0F)
@@ -212,7 +211,6 @@ namespace Snake
         {
             if (snake.IsSnakeRIP())
             {
-
                 Game_Over();
             }
         }
@@ -222,7 +220,6 @@ namespace Snake
             timer_of_big_apple.Stop();
             LabelScore.Text = ListMessages[2];
         }
-
         private void LabelScore_SizeChanged(object sender, EventArgs e)
         {
             LabelScore.Left = this.Width / 2 - LabelScore.Width / 2;

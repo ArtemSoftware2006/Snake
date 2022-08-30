@@ -14,7 +14,7 @@ namespace Snake
     {
        
         protected Point location;
-        protected Random rnd = new Random();
+        protected Random randomLocation = new Random();
         abstract public Rectangle Apple
         {
             get;
@@ -24,12 +24,12 @@ namespace Snake
             get { return location; }
             set { location = value; }
         }
-        abstract public void CreateApple();
+        abstract public void AddApple();
 
         protected  void SetLocation()
         {
-            location.X = rnd.Next(1, 13) * 40;
-            location.Y = rnd.Next(1, 13) * 40;
+            location.X = randomLocation.Next(1, 13) * 40;
+            location.Y = randomLocation.Next(1, 13) * 40;
             Snake.GetLocationApple(Location);
         }
         void CheckLocationApple()
@@ -44,7 +44,7 @@ namespace Snake
                 }
             }
         }
-        protected void AddApple()
+        protected void NewApple()
         {
             SetLocation();
         }
