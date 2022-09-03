@@ -20,10 +20,10 @@ namespace Snake
         }
         public override void AddApple()
         {
-            base.NewApple();
-            CreateSmallAple();
+            base.SetLocation();
+            CreateSmallApple();
         }
-       protected void CreateSmallAple()
+       protected void CreateSmallApple()
         {
             apple.Width = SIZE_APPLE;
             apple.Height = SIZE_APPLE;

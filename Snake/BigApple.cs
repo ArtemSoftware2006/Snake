@@ -11,7 +11,7 @@ using Snake;
 
 namespace Snake
 {
-    class BigApple : Apples
+    class BigApple : SmallApple
     {
         const int SIZE_APPLE_SMALL = 25;
         const int SIZE_APPLE_BIG = 30;
@@ -25,7 +25,7 @@ namespace Snake
         }
         public override void AddApple()
         {
-            base.NewApple();
+            base.SetLocation();
             CreateSmallApple();
         }
         void CreateBigApple()
@@ -38,16 +38,7 @@ namespace Snake
 
             apple = appleBigView;
         }
-        void CreateSmallApple()
-        {
-            appleSmallView.Width = SIZE_APPLE_SMALL;
-            appleSmallView.Height = SIZE_APPLE_SMALL;
-
-            appleSmallView.X = Location.X + 8;
-            appleSmallView.Y = Location.Y + 8;
-
-            apple = appleSmallView;
-        }
+        
         public void NextViewOfBigApple(ref BigApple apple)
         {
             if (apple.apple == appleSmallView)

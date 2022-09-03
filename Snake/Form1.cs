@@ -54,6 +54,26 @@ namespace Snake
             StartingTimers();
             Beginning_game();
         }
+        void CheckLocationApple(ref Apples apple, ref Snake snake)
+        {
+            for (int i = 0; i < snake.GetSnake().Length; i++)
+            {
+                if (apple.GetLocation().X == snake.GetSnake()[i].X && (apple.GetLocation().Y == snake.GetSnake()[i].Y))
+                {
+                    NewAppleOnForm(apple);
+                    break;
+                }
+            }
+        }
+        void NewAppleOnForm(Apples apple)
+        {
+            apple.AddApple();
+            CheckLocationApple(ref apple, ref snake);
+        }
+        void CheckSnakeEatApple(Apples apple)
+        {
+            sanke
+        }
         void StartingTimers()
         {
             countDown = 3;
@@ -67,7 +87,8 @@ namespace Snake
             Initializingpole();
             snake.InitializingSnake();
             g.FillRectangles(brash, snake.GetSnake());
-            smallApple.AddApple();
+            NewAppleOnForm(smallApple);
+            DisplaySnakeEyes();
             pictureBox1.Image = bmp;
         }
         void Initializingpole()
@@ -117,6 +138,7 @@ namespace Snake
             GameOneCadr();
             IsAddBigApple();
             DisplayApple();
+            DisplaySnakeEyes();
             CheckIsSnakeEatApple();
             pictureBox1.Image = bmp;
             CheckIsSnakeRIP();
@@ -142,7 +164,7 @@ namespace Snake
         {
             if (counterEatedApple % 2 == 0)
             {
-                bigApple.AddApple();
+                NewAppleOnForm(bigApple);
                 AddBigappleFlag = true;
                 timer_of_big_apple.Interval = 500;
                 timer_of_big_apple.Start();
@@ -162,7 +184,7 @@ namespace Snake
 
                     LabelScore.Text = ListMessages[0] + Convert.ToString(allPoints);
 
-                    smallApple.AddApple();
+                    NewAppleOnForm(smallApple);
                     AddBigappleFlag = false;
                 }
                 else
@@ -171,9 +193,14 @@ namespace Snake
                     LabelScore.Text = ListMessages[0] + Convert.ToString(allPoints);
                     counterEatedApple++;
 
-                    smallApple.AddApple();
+                    NewAppleOnForm(smallApple);
                 }
             }
+        }
+        void DisplaySnakeEyes()
+        {
+            g.FillRectangle(brash, snake.GetEyes(0));
+            g.FillRectangle(brash, snake.GetEyes(1));
         }
         void SnakeMove()
         {

@@ -12,15 +12,16 @@ namespace Snake
 {
     class Snake
     {
-        List<Rectangle> SnakeBody = new List<Rectangle>(3);
-        Size SizeBlock = new Size(40, 40);
+        List<Rectangle> snakeBody = new List<Rectangle>(3);
+        Size sizeBlock = new Size(40, 40);
         const int VALUE_SIDE_BLOCK = 40;
-        Rectangle[] ArrSnakeBody;
-        int SnakeLenght = 3;
-        static List<Point> LocationSnakeBody = new List<Point>(3);
-        static Point? LocationApple;
+        Rectangle[] arrSnakeBody;
+        Rectangle[] eyesSnake = new Rectangle[2];
+        int snakeLenght = 3;
+        List<Point> locationSnakeBody = new List<Point>(3);
+        Point? locationApple;
         Direction direct;
-        Direction BanDirect;
+        Direction banDirect;
         enum Direction
         {
             Up,
@@ -28,13 +29,57 @@ namespace Snake
             Right,
             Left
         }
-
+        public Rectangle GetHeadSnake()
+        {
+            return snakeBody[0];
+        }
+        public Rectangle[] GetSnake()
+        {
+            return ConvertListSnakeToArray();
+        }
+        public Rectangle GetEyes(int index)
+        {
+            return eyesSnake[index];
+        }
+        void SetEyes(Direction direct)
+        {
+            switch (direct)
+            {
+                case Direction.Up:
+                    eyesSnake[0].X = snakeBody[0].X + 3;
+                    eyesSnake[0].Y = snakeBody[0].Y - 3;
+                    eyesSnake[1].X = snakeBody[0].X + VALUE_SIDE_BLOCK - 3;
+                    eyesSnake[1].Y = snakeBody[0].Y - 3;
+                    break;
+                case Direction.Down:
+                    eyesSnake[0].X = snakeBody[0].X - 3;
+                    eyesSnake[0].Y = snakeBody[0].Y + VALUE_SIDE_BLOCK - 3;
+                    eyesSnake[1].X = snakeBody[0].X + VALUE_SIDE_BLOCK - 3;
+                    eyesSnake[1].Y = snakeBody[0].Y + VALUE_SIDE_BLOCK - 3;
+                    break;
+                case Direction.Right:
+                    eyesSnake[0].X = snakeBody[0].X + VALUE_SIDE_BLOCK - 3;
+                    eyesSnake[0].Y = snakeBody[0].Y + 3;
+                    eyesSnake[1].X = snakeBody[0].X + VALUE_SIDE_BLOCK - 3;
+                    eyesSnake[1].Y = snakeBody[0].Y + VALUE_SIDE_BLOCK - 3;
+                    break;
+                case Direction.Left:
+                    eyesSnake[0].X = snakeBody[0].X - 3;
+                    eyesSnake[0].Y = snakeBody[0].Y + 3;
+                    eyesSnake[1].X = snakeBody[0].X - 3;
+                    eyesSnake[1].Y = snakeBody[0].Y + VALUE_SIDE_BLOCK - 3;
+                    break;
+                default:
+                    break;
+            }
+            
+        }
         public bool IsSnakeRIP()
         {
-            for (int i = 1; i < SnakeLenght; i++)
+            for (int i = 1; i < snakeLenght; i++)
             {
-                if (LocationSnakeBody[0] == LocationSnakeBody[i] || LocationSnakeBody[0].X >= 520 || 
-                    LocationSnakeBody[0].X <= 0 || LocationSnakeBody[0].Y >= 520 || LocationSnakeBody[0].Y <= 0 )
+                if (locationSnakeBody[0] == locationSnakeBody[i] || locationSnakeBody[0].X >= 520 || 
+                    locationSnakeBody[0].X <= 0 || locationSnakeBody[0].Y >= 520 || locationSnakeBody[0].Y <= 0 )
                 {
                     return true;
                 }
@@ -43,7 +88,7 @@ namespace Snake
         }
         public bool IsSnakeEatApple()
         {
-            if (LocationApple == null)
+            if (locationApple == null)
             {
                 return true;
             }
@@ -54,49 +99,41 @@ namespace Snake
         }
         void CheckEatSnakeApple()
         {
-            if(LocationApple != new Point(SnakeBody[0].X, SnakeBody[0].Y))
+            if(locationApple != new Point(snakeBody[0].X, snakeBody[0].Y))
             {
-                SnakeBody.RemoveAt(SnakeLenght);
-                LocationSnakeBody.RemoveAt(SnakeLenght);
+                snakeBody.RemoveAt(snakeLenght);
+                locationSnakeBody.RemoveAt(snakeLenght);
             }
             else
             {
-                LocationApple = null;
-                SnakeLenght++;
+                locationApple = null;
+                snakeLenght++;
             }
-        }
-        public static void GetLocationApple(Point Location)
-        {
-            LocationApple = Location;
-        }
-        static public List<Point> GetLocationSnake()
-        {
-            return LocationSnakeBody;
         }
         public void SetDerection(int direct)
         {
             switch (direct)
             {
                 case 0:
-                    if (direct != (int)BanDirect)
+                    if (direct != (int)banDirect)
                     {
                         this.direct = Direction.Up;
                     }
                     break;
                 case 1:
-                    if (direct != (int)BanDirect)
+                    if (direct != (int)banDirect)
                     {
                         this.direct = Direction.Down;
                     }
                     break;
                 case 2:
-                    if (direct != (int)BanDirect)
+                    if (direct != (int)banDirect)
                     {
                         this.direct = Direction.Right;
                     }
                     break;
                 case 3:
-                    if (direct != (int)BanDirect)
+                    if (direct != (int)banDirect)
                     {
                         this.direct = Direction.Left;
                     }
@@ -104,6 +141,7 @@ namespace Snake
                 default:
                     break;
             };
+            SetEyes(this.direct);
         }
         public int GetDerection()
         {
@@ -111,47 +149,51 @@ namespace Snake
         }
         Rectangle[] ConvertListSnakeToArray()
         {
-            SnakeBody.CopyTo(ArrSnakeBody = new Rectangle[SnakeLenght]);
-            return ArrSnakeBody;
+            snakeBody.CopyTo(arrSnakeBody = new Rectangle[snakeLenght]);
+            return arrSnakeBody;
         }
         public void InitializingSnake()
         {
-            for (int i = 0; i < SnakeLenght; i++)
+            eyesSnake[0].Width = 4;
+            eyesSnake[0].Height = 6;
+            eyesSnake[1].Width = 4;
+            eyesSnake[1].Height = 6;
+
+            SetDerection((int)Direction.Left);
+
+            for (int i = 0; i < snakeLenght; i++)
             {
-                SnakeBody.Add(new Rectangle(new Point(240 + (i * VALUE_SIDE_BLOCK), 240), SizeBlock));
-                LocationSnakeBody.Add( new Point(SnakeBody[i].X, SnakeBody[i].Y) );
+                snakeBody.Add(new Rectangle(new Point(240 + (i * VALUE_SIDE_BLOCK), 240), sizeBlock));
+                locationSnakeBody.Add( new Point(snakeBody[i].X, snakeBody[i].Y) );
             }
         }
-        public Rectangle[] GetSnake()
-        {
-            return ConvertListSnakeToArray();
-        }
+        
         public void SnakeUp()
         {
-            SnakeBody.Insert(0, new Rectangle(new Point(SnakeBody[0].X, SnakeBody[0].Y - VALUE_SIDE_BLOCK),SizeBlock));
-            LocationSnakeBody.Insert(0, new Point(SnakeBody[0].X, SnakeBody[0].Y));
-            BanDirect = Direction.Down;
+            snakeBody.Insert(0, new Rectangle(new Point(snakeBody[0].X, snakeBody[0].Y - VALUE_SIDE_BLOCK),sizeBlock));
+            locationSnakeBody.Insert(0, new Point(snakeBody[0].X, snakeBody[0].Y));
+            banDirect = Direction.Down;
             CheckEatSnakeApple();
         }
         public void SnakeDown()
         {
-            SnakeBody.Insert(0, new Rectangle(new Point(SnakeBody[0].X, SnakeBody[0].Y + VALUE_SIDE_BLOCK), SizeBlock));
-            LocationSnakeBody.Insert(0, new Point(SnakeBody[0].X, SnakeBody[0].Y));
-            BanDirect = Direction.Up;
+            snakeBody.Insert(0, new Rectangle(new Point(snakeBody[0].X, snakeBody[0].Y + VALUE_SIDE_BLOCK), sizeBlock));
+            locationSnakeBody.Insert(0, new Point(snakeBody[0].X, snakeBody[0].Y));
+            banDirect = Direction.Up;
             CheckEatSnakeApple();
         }
         public void SnakeLeft()
         {
-            SnakeBody.Insert(0, new Rectangle(new Point(SnakeBody[0].X - VALUE_SIDE_BLOCK, SnakeBody[0].Y ), SizeBlock));
-            LocationSnakeBody.Insert(0, new Point(SnakeBody[0].X, SnakeBody[0].Y));
-            BanDirect = Direction.Right;
+            snakeBody.Insert(0, new Rectangle(new Point(snakeBody[0].X - VALUE_SIDE_BLOCK, snakeBody[0].Y ), sizeBlock));
+            locationSnakeBody.Insert(0, new Point(snakeBody[0].X, snakeBody[0].Y));
+            banDirect = Direction.Right;
             CheckEatSnakeApple();
         }
         public void SnakeRight()
         {
-            SnakeBody.Insert(0, new Rectangle(new Point(SnakeBody[0].X + VALUE_SIDE_BLOCK, SnakeBody[0].Y ), SizeBlock));
-            LocationSnakeBody.Insert(0, new Point(SnakeBody[0].X, SnakeBody[0].Y));
-            BanDirect = Direction.Left;
+            snakeBody.Insert(0, new Rectangle(new Point(snakeBody[0].X + VALUE_SIDE_BLOCK, snakeBody[0].Y ), sizeBlock));
+            locationSnakeBody.Insert(0, new Point(snakeBody[0].X, snakeBody[0].Y));
+            banDirect = Direction.Left;
             CheckEatSnakeApple();
         }
     }
