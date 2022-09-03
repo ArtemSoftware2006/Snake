@@ -33,6 +33,8 @@ namespace Snake
         Bitmap bmp;
         Pen pen = new Pen(Color.Black, 4.0F);
         SolidBrush brash = new SolidBrush(Color.Red);
+        SnakeEyes snakeEyes = new SnakeEyes();
+        DirectionSnake directSnake = new DirectionSnake();
         int countDown;
         int pointsForSmallApple = 3;
         int pointsForBidApple = 10;
@@ -116,16 +118,16 @@ namespace Snake
             switch (e.KeyValue)
             {
                 case (char)Keys.W:
-                    snake.SetDerection((int)Direction.Up);
+                    directSnake.SetDerection((int)Direction.Up);
                     break;
                 case (char)Keys.D:
-                    snake.SetDerection((int)Direction.Right);
+                    directSnake.SetDerection((int)Direction.Right);
                     break;
                 case (char)Keys.S:
-                    snake.SetDerection((int)Direction.Down);
+                    directSnake.SetDerection((int)Direction.Down);
                     break;
                 case (char)Keys.A:
-                    snake.SetDerection((int)Direction.Left);
+                    directSnake.SetDerection((int)Direction.Left);
                     break;
                 default:
                     break;
@@ -199,12 +201,13 @@ namespace Snake
         }
         void DisplaySnakeEyes()
         {
-            g.FillRectangle(brash, snake.GetEyes(0));
-            g.FillRectangle(brash, snake.GetEyes(1));
+            snakeEyes.SetEyes(directSnake.GetDerection(), snake.GetSnake());
+            g.FillRectangle(brash, snakeEyes.GetEyes(0));
+            g.FillRectangle(brash, snakeEyes.GetEyes(1));
         }
         void SnakeMove()
         {
-            switch (snake.GetDerection())
+            switch (directSnake.GetDerection())
             {
                 case (int)Direction.Up:
                     snake.SnakeUp();
