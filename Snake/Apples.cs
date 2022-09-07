@@ -19,7 +19,7 @@ namespace Snake
         {
             get;
         }
-        protected Point Location
+        public Point Location
         {
             get { return location; }
             set { location = value; }
@@ -31,9 +31,5 @@ namespace Snake
             location.X = randomLocation.Next(1, 13) * 40;
             location.Y = randomLocation.Next(1, 13) * 40;
         }
-        public Point GetLocation()
-        {
-            return location;
-        }    
     }
 }

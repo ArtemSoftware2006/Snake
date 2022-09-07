@@ -13,20 +13,13 @@ namespace Snake
 {
     class BigApple : SmallApple
     {
-        const int SIZE_APPLE_SMALL = 25;
         const int SIZE_APPLE_BIG = 30;
-        Rectangle apple = new Rectangle();
         Rectangle appleBigView = new Rectangle();
-        Rectangle appleSmallView = new Rectangle();
 
-        public override Rectangle Apple
-        {
-            get => apple;
-        }
         public override void AddApple()
         {
             base.SetLocation();
-            CreateSmallApple();
+            CreateBigApple();
         }
         void CreateBigApple()
         {
@@ -41,17 +34,15 @@ namespace Snake
         
         public void NextViewOfBigApple(ref BigApple apple)
         {
-            if (apple.apple == appleSmallView)
+            if (apple.apple == appleBigView)
             {
-                CreateBigApple();
+                CreateSmallApple();
             }
             else
             {
-                CreateSmallApple();
+                CreateBigApple();
             }
         }
         
     }
-        
-    
 }

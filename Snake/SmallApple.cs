@@ -13,7 +13,7 @@ namespace Snake
     class SmallApple : Apples
     {
         const int SIZE_APPLE = 20;
-        Rectangle apple = new Rectangle();
+        protected Rectangle apple = new Rectangle();
         public override Rectangle Apple 
         { 
             get => apple; 

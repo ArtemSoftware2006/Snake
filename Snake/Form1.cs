@@ -33,8 +33,10 @@ namespace Snake
         Bitmap bmp;
         Pen pen = new Pen(Color.Black, 4.0F);
         SolidBrush brash = new SolidBrush(Color.Red);
+        SolidBrush eyesBrash = new SolidBrush(Color.Blue);
         SnakeEyes snakeEyes = new SnakeEyes();
         DirectionSnake directSnake = new DirectionSnake();
+        Point locationApple;
         int countDown;
         int pointsForSmallApple = 3;
         int pointsForBidApple = 10;
@@ -56,32 +58,6 @@ namespace Snake
             StartingTimers();
             Beginning_game();
         }
-        void CheckLocationApple(ref Apples apple, ref Snake snake)
-        {
-            for (int i = 0; i < snake.GetSnake().Length; i++)
-            {
-                if (apple.GetLocation().X == snake.GetSnake()[i].X && (apple.GetLocation().Y == snake.GetSnake()[i].Y))
-                {
-                    NewAppleOnForm(apple);
-                    break;
-                }
-            }
-        }
-        void NewAppleOnForm(Apples apple)
-        {
-            apple.AddApple();
-            CheckLocationApple(ref apple, ref snake);
-        }
-        void CheckSnakeEatApple(Apples apple)
-        {
-            sanke
-        }
-        void StartingTimers()
-        {
-            countDown = 3;
-            timer_starting_game.Interval = 1000;
-            timer_starting_game.Start();
-        }
         private void Beginning_game()
         {
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
@@ -92,6 +68,29 @@ namespace Snake
             NewAppleOnForm(smallApple);
             DisplaySnakeEyes();
             pictureBox1.Image = bmp;
+        }
+        void StartingTimers()
+        {
+            countDown = 3;
+            timer_starting_game.Interval = 1000;
+            timer_starting_game.Start();
+        }
+        void CheckLocationApple(ref Apples apple)
+        {
+            for (int i = 0; i < snake.GetSnake().Length; i++)
+            {
+                if (apple.Apple.X == snake.GetSnake()[i].X && (apple.Apple.Y == snake.GetSnake()[i].Y))
+                {
+                    NewAppleOnForm(apple);
+                    break;
+                }
+            }
+        }
+        void NewAppleOnForm(Apples apple)
+        {
+            apple.AddApple();
+            CheckLocationApple(ref apple);
+            locationApple = apple.Location;
         }
         void Initializingpole()
         {
@@ -136,12 +135,13 @@ namespace Snake
         
         private void timer_game_cycle_Tick(object sender, EventArgs e)
         {
-            SnakeMove();
-            GameOneCadr();
-            IsAddBigApple();
-            DisplayApple();
-            DisplaySnakeEyes();
             CheckIsSnakeEatApple();
+            SnakeSetDirection();
+            GameOneCadr();
+
+            IsAddBigApple();
+
+            DisplayApple();
             pictureBox1.Image = bmp;
             CheckIsSnakeRIP();
         }
@@ -160,11 +160,12 @@ namespace Snake
         {
             g.Clear(Color.White);
             Initializingpole();
+            DisplaySnakeEyes();
             g.FillRectangles(brash, snake.GetSnake());
         }
         void IsAddBigApple()
         {
-            if (counterEatedApple % 2 == 0)
+            if (counterEatedApple % 4 == 0)
             {
                 NewAppleOnForm(bigApple);
                 AddBigappleFlag = true;
@@ -173,20 +174,21 @@ namespace Snake
                 counterEatedApple++;
             }
         }
+        void SetPointsForBigApple()
+        {
+            allPoints += pointsForBidApple - (pointsForBidApple - (int)TimeForEatBigApple);
+            LabelScore.Text = ListMessages[0] + Convert.ToString(allPoints);
+        }
         void CheckIsSnakeEatApple()
         {
-            if (snake.IsSnakeEatApple() || TimeForEatBigApple == 0.0F)
+            if (snake.GetSnake()[0].X == locationApple.X && snake.GetSnake()[0].Y == locationApple.Y)
             {
                 if (AddBigappleFlag == true)
                 {
                     timer_of_big_apple.Stop();
-
-                    allPoints += pointsForBidApple - (pointsForBidApple - (int)TimeForEatBigApple);
-                    TimeForEatBigApple = 20.0F;
-
-                    LabelScore.Text = ListMessages[0] + Convert.ToString(allPoints);
-
+                    SetPointsForBigApple();
                     NewAppleOnForm(smallApple);
+                    snake.SnakeMoveAndGrow();
                     AddBigappleFlag = false;
                 }
                 else
@@ -194,18 +196,22 @@ namespace Snake
                     allPoints += pointsForSmallApple;
                     LabelScore.Text = ListMessages[0] + Convert.ToString(allPoints);
                     counterEatedApple++;
-
+                    snake.SnakeMoveAndGrow();
                     NewAppleOnForm(smallApple);
                 }
+            }
+            else
+            {
+                snake.SnakeMove();
             }
         }
         void DisplaySnakeEyes()
         {
             snakeEyes.SetEyes(directSnake.GetDerection(), snake.GetSnake());
-            g.FillRectangle(brash, snakeEyes.GetEyes(0));
-            g.FillRectangle(brash, snakeEyes.GetEyes(1));
+            g.FillRectangle(eyesBrash, snakeEyes.GetEyes(0));
+            g.FillRectangle(eyesBrash, snakeEyes.GetEyes(1));
         }
-        void SnakeMove()
+        void SnakeSetDirection()
         {
             switch (directSnake.GetDerection())
             {
@@ -229,7 +235,10 @@ namespace Snake
         {
             if (TimeForEatBigApple <= 0.0F)
             {
-                CheckIsSnakeEatApple();
+                timer_of_big_apple.Stop();
+                SetPointsForBigApple();
+                NewAppleOnForm(smallApple);
+                TimeForEatBigApple = 20.0F;
             }
             GameOneCadr();
             bigApple.NextViewOfBigApple(ref bigApple);
@@ -239,9 +248,13 @@ namespace Snake
         }
         void CheckIsSnakeRIP()
         {
-            if (snake.IsSnakeRIP())
+            for (int i = 1; i < snake.GetSnake().Length; i++)
             {
-                Game_Over();
+                if (snake.GetSnake()[0] == snake.GetSnake()[i] || snake.GetSnake()[0].X >= 520 || snake.GetSnake()[0].X <= 0 || snake.GetSnake()[0].Y >= 520 ||
+                    snake.GetSnake()[0].Y <= 0)
+                {
+                    Game_Over();
+                }
             }
         }
         void Game_Over()
