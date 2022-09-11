@@ -25,8 +25,6 @@ namespace Snake
             "До начала игры: ",
             "Игра окончена",
         };
-        //SmallApple smallApple = new SmallApple();
-        //BigApple bigApple = new BigApple();
         Snake snake = new Snake();
         GameSpace pole;
         Graphics g;
@@ -37,9 +35,9 @@ namespace Snake
         SnakeEyes snakeEyes = new SnakeEyes();
         DirectionSnake directSnake = new DirectionSnake();
         Apple smlApple = new Apple(20);
-        Apple bgApple = new Apple(30);
-        Rectangle currentApple;
-        Point locationApple;
+        Apple bgApple = new Apple(35);
+        RectangleF currentApple;
+        PointF locationApple;
         int countDown;
         int pointsForSmallApple = 3;
         int pointsForBidApple = 10;
@@ -237,22 +235,21 @@ namespace Snake
                     break;
             }
         }
-        void FlashingApple(ref Rectangle apple)
+        void FlashingApple(ref RectangleF apple, ref Apple firstApple, ref Apple secondApple)
         {
-            if (apple.Width == smlApple.apple.Width && apple.Height == smlApple.apple.Height)
+            if (apple.Width == firstApple.apple.Width && apple.Height == firstApple.apple.Height)
             {
-                currentApple.X = locationApple.X + bgApple.UpperleftCorner.X;
-                currentApple.Y = locationApple.Y + bgApple.UpperleftCorner.Y;
-                currentApple.Height = bgApple.apple.Height;
-                currentApple.Width = bgApple.apple.Width;
-                
+                currentApple.X = locationApple.X + secondApple.UpperleftCorner.X;
+                currentApple.Y = locationApple.Y + secondApple.UpperleftCorner.Y;
+                currentApple.Height = secondApple.apple.Height;
+                currentApple.Width = secondApple.apple.Width;
             }
             else
             {
-                currentApple.Height = smlApple.apple.Height;
-                currentApple.Width = smlApple.apple.Width;
-                currentApple.X = locationApple.X + smlApple.UpperleftCorner.X;
-                currentApple.Y = locationApple.Y + smlApple.UpperleftCorner.Y;
+                currentApple.Height = firstApple.apple.Height;
+                currentApple.Width = firstApple.apple.Width;
+                currentApple.X = locationApple.X + firstApple.UpperleftCorner.X;
+                currentApple.Y = locationApple.Y + firstApple.UpperleftCorner.Y;
             }
         }
         private void timer_of_big_apple_Tick(object sender, EventArgs e)
@@ -265,7 +262,7 @@ namespace Snake
                 TimeForEatBigApple = 20.0F;
             }
             GameOneCadr();
-            FlashingApple(ref currentApple);
+            FlashingApple(ref currentApple,ref smlApple, ref bgApple);
             g.FillEllipse(brash, currentApple);
             pictureBox1.Image = bmp;
             TimeForEatBigApple -= 0.5F;

@@ -14,26 +14,26 @@ namespace Snake
     {
         const int SIZE_BLOCK = 40;
         private int sizeApple = 0;
-        private Point location;
+        private PointF location;
         private Random randomLocation = new Random();
-        private Rectangle _Apple;
-        private Point UpperleftCornerApple;
+        private RectangleF _Apple;
+        private PointF UpperleftCornerApple;
         public Apple(int sizeApple)
         {
             this.sizeApple = sizeApple;
         }
-        public Point UpperleftCorner
+        public PointF UpperleftCorner
         {
             get { return UpperleftCornerApple; ; }
             private set { UpperleftCornerApple = value; }
         }
-        public Rectangle apple
+        public RectangleF apple
         {
             get { return _Apple; }
             set { _Apple = value; }
         }
 
-        public Point Location
+        public PointF Location
         {
             get { return location; }
             private set { location = value; }
@@ -54,7 +54,7 @@ namespace Snake
             UpperleftCornerApple.X = (SIZE_BLOCK - sizeApple) / 2;
             UpperleftCornerApple.Y = (SIZE_BLOCK - sizeApple) / 2;
 
-            apple = new Rectangle(UpperleftCornerApple.X + location.X, UpperleftCornerApple.Y + location.Y, sizeApple, sizeApple);
+            apple = new RectangleF(UpperleftCornerApple.X + location.X, UpperleftCornerApple.Y + location.Y, sizeApple, sizeApple);
         }
     }
 }
