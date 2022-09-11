@@ -16,6 +16,8 @@ namespace Snake
         Size sizeBlock = new Size(VALUE_SIDE_BLOCK, VALUE_SIDE_BLOCK);
         const int VALUE_SIDE_BLOCK = 40;
         Rectangle[] arrSnakeBody;
+        int deltaX = 0;
+        int deltaY = 0;
         int snakeLenght = 3;
         public Rectangle[] GetSnake()
         {
@@ -23,11 +25,13 @@ namespace Snake
         }
         public void SnakeMoveAndGrow()
         {
+            snakeBody.Insert(0, new Rectangle(new Point(snakeBody[0].X + deltaX, snakeBody[0].Y + deltaY), sizeBlock));
             snakeLenght++;
         }
         public void SnakeMove()
         {
             snakeBody.RemoveAt(snakeLenght - 1);
+            snakeBody.Insert(0, new Rectangle(new Point(snakeBody[0].X + deltaX, snakeBody[0].Y + deltaY), sizeBlock));
         }
         
         Rectangle[] ConvertListSnakeToArray()
@@ -42,22 +46,25 @@ namespace Snake
                 snakeBody.Add(new Rectangle(new Point(240 + (i * VALUE_SIDE_BLOCK), 240), sizeBlock));
             }
         }
-        
         public void SnakeUp()
         {
-            snakeBody.Insert(0, new Rectangle(new Point(snakeBody[0].X, snakeBody[0].Y - VALUE_SIDE_BLOCK),sizeBlock));
+            deltaX = 0;
+            deltaY = -1 * VALUE_SIDE_BLOCK;
         }
         public void SnakeDown()
         {
-            snakeBody.Insert(0, new Rectangle(new Point(snakeBody[0].X, snakeBody[0].Y + VALUE_SIDE_BLOCK), sizeBlock));
+            deltaX = 0;
+            deltaY = VALUE_SIDE_BLOCK;
         }
         public void SnakeLeft()
         {
-            snakeBody.Insert(0, new Rectangle(new Point(snakeBody[0].X - VALUE_SIDE_BLOCK, snakeBody[0].Y ), sizeBlock));
+            deltaX = -1 * VALUE_SIDE_BLOCK;
+            deltaY = 0;
         }
         public void SnakeRight()
         {
-            snakeBody.Insert(0, new Rectangle(new Point(snakeBody[0].X + VALUE_SIDE_BLOCK, snakeBody[0].Y ), sizeBlock));
+            deltaX = VALUE_SIDE_BLOCK;
+            deltaY = 0;
         }
     }
 }

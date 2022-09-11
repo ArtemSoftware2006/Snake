@@ -36,6 +36,7 @@ namespace Snake
         SolidBrush eyesBrash = new SolidBrush(Color.Blue);
         SnakeEyes snakeEyes = new SnakeEyes();
         DirectionSnake directSnake = new DirectionSnake();
+        Apple smlApple = new Apple(30);
         Point locationApple;
         int countDown;
         int pointsForSmallApple = 3;
@@ -135,8 +136,8 @@ namespace Snake
         
         private void timer_game_cycle_Tick(object sender, EventArgs e)
         {
-            CheckIsSnakeEatApple();
             SnakeSetDirection();
+            CheckIsSnakeEatApple();
             GameOneCadr();
 
             IsAddBigApple();
