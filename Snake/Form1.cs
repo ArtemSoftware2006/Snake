@@ -25,8 +25,8 @@ namespace Snake
             "До начала игры: ",
             "Игра окончена",
         };
-        SmallApple smallApple = new SmallApple();
-        BigApple bigApple = new BigApple();
+        //SmallApple smallApple = new SmallApple();
+        //BigApple bigApple = new BigApple();
         Snake snake = new Snake();
         GameSpace pole;
         Graphics g;
@@ -36,7 +36,9 @@ namespace Snake
         SolidBrush eyesBrash = new SolidBrush(Color.Blue);
         SnakeEyes snakeEyes = new SnakeEyes();
         DirectionSnake directSnake = new DirectionSnake();
-        Apple smlApple = new Apple(30);
+        Apple smlApple = new Apple(20);
+        Apple bgApple = new Apple(30);
+        Rectangle currentApple;
         Point locationApple;
         int countDown;
         int pointsForSmallApple = 3;
@@ -59,6 +61,11 @@ namespace Snake
             StartingTimers();
             Beginning_game();
         }
+        void SetCurrentApple(ref Apple apple)
+        {
+            currentApple = apple.apple;
+            locationApple = apple.Location;
+        }
         private void Beginning_game()
         {
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
@@ -66,9 +73,10 @@ namespace Snake
             Initializingpole();
             snake.InitializingSnake();
             g.FillRectangles(brash, snake.GetSnake());
-            NewAppleOnForm(smallApple);
+            NewAppleOnForm(smlApple);
             DisplaySnakeEyes();
             pictureBox1.Image = bmp;
+            currentApple = smlApple.apple;
         }
         void StartingTimers()
         {
@@ -76,18 +84,18 @@ namespace Snake
             timer_starting_game.Interval = 1000;
             timer_starting_game.Start();
         }
-        void CheckLocationApple(ref Apples apple)
+        void CheckLocationApple(ref Apple apple)
         {
             for (int i = 0; i < snake.GetSnake().Length; i++)
             {
-                if (apple.Apple.X == snake.GetSnake()[i].X && (apple.Apple.Y == snake.GetSnake()[i].Y))
+                if (apple.apple.X == snake.GetSnake()[i].X && (apple.apple.Y == snake.GetSnake()[i].Y))
                 {
                     NewAppleOnForm(apple);
                     break;
                 }
             }
         }
-        void NewAppleOnForm(Apples apple)
+        void NewAppleOnForm(Apple apple)
         {
             apple.AddApple();
             CheckLocationApple(ref apple);
@@ -142,21 +150,12 @@ namespace Snake
 
             IsAddBigApple();
 
-            DisplayApple();
+            g.FillEllipse(brash, currentApple);
+
             pictureBox1.Image = bmp;
             CheckIsSnakeRIP();
         }
-        void DisplayApple()
-        {
-            if (AddBigappleFlag == true)
-            {
-                g.FillEllipse(brash, bigApple.Apple);
-            }
-            else
-            {
-                g.FillEllipse(brash, smallApple.Apple);
-            }
-        }
+        
         void GameOneCadr()
         {
             g.Clear(Color.White);
@@ -166,13 +165,14 @@ namespace Snake
         }
         void IsAddBigApple()
         {
-            if (counterEatedApple % 4 == 0)
+            if (counterEatedApple % 2 == 0)
             {
-                NewAppleOnForm(bigApple);
+                NewAppleOnForm(bgApple);
                 AddBigappleFlag = true;
                 timer_of_big_apple.Interval = 500;
                 timer_of_big_apple.Start();
                 counterEatedApple++;
+                SetCurrentApple(ref bgApple);
             }
         }
         void SetPointsForBigApple()
@@ -188,7 +188,7 @@ namespace Snake
                 {
                     timer_of_big_apple.Stop();
                     SetPointsForBigApple();
-                    NewAppleOnForm(smallApple);
+                    NewAppleOnForm(smlApple);
                     snake.SnakeMoveAndGrow();
                     AddBigappleFlag = false;
                 }
@@ -198,8 +198,9 @@ namespace Snake
                     LabelScore.Text = ListMessages[0] + Convert.ToString(allPoints);
                     counterEatedApple++;
                     snake.SnakeMoveAndGrow();
-                    NewAppleOnForm(smallApple);
+                    NewAppleOnForm(smlApple);
                 }
+                SetCurrentApple(ref smlApple);
             }
             else
             {
@@ -218,18 +219,40 @@ namespace Snake
             {
                 case (int)Direction.Up:
                     snake.SnakeUp();
+                    directSnake.SetBanDirect();
                     break;
                 case (int)Direction.Down:
                     snake.SnakeDown();
+                    directSnake.SetBanDirect();
                     break;
                 case (int)Direction.Left:
                     snake.SnakeLeft();
+                    directSnake.SetBanDirect();
                     break;
                 case (int)Direction.Right:
                     snake.SnakeRight();
+                    directSnake.SetBanDirect();
                     break;
                 default:
                     break;
+            }
+        }
+        void FlashingApple(ref Rectangle apple)
+        {
+            if (apple.Width == smlApple.apple.Width && apple.Height == smlApple.apple.Height)
+            {
+                currentApple.X = locationApple.X + bgApple.UpperleftCorner.X;
+                currentApple.Y = locationApple.Y + bgApple.UpperleftCorner.Y;
+                currentApple.Height = bgApple.apple.Height;
+                currentApple.Width = bgApple.apple.Width;
+                
+            }
+            else
+            {
+                currentApple.Height = smlApple.apple.Height;
+                currentApple.Width = smlApple.apple.Width;
+                currentApple.X = locationApple.X + smlApple.UpperleftCorner.X;
+                currentApple.Y = locationApple.Y + smlApple.UpperleftCorner.Y;
             }
         }
         private void timer_of_big_apple_Tick(object sender, EventArgs e)
@@ -238,12 +261,12 @@ namespace Snake
             {
                 timer_of_big_apple.Stop();
                 SetPointsForBigApple();
-                NewAppleOnForm(smallApple);
+                NewAppleOnForm(smlApple);
                 TimeForEatBigApple = 20.0F;
             }
             GameOneCadr();
-            bigApple.NextViewOfBigApple(ref bigApple);
-            DisplayApple();
+            FlashingApple(ref currentApple);
+            g.FillEllipse(brash, currentApple);
             pictureBox1.Image = bmp;
             TimeForEatBigApple -= 0.5F;
         }

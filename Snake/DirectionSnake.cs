@@ -13,7 +13,7 @@ namespace Snake
     class DirectionSnake
     {
         int directSnake = (int)Direction.Left; // Потому что при инициализации глаза змейки смотрят на лево
-        Direction banDirect;
+        Direction banDirect = Direction.Right;
         enum Direction
         {
             Up,
@@ -23,7 +23,6 @@ namespace Snake
         }
         public void SetDerection(int direct)
         {
-            SetBanDirect(direct);
             if(direct != (int)banDirect)
             {
                 directSnake = direct;
@@ -33,9 +32,9 @@ namespace Snake
         {
             return directSnake;
         }
-        void SetBanDirect(int currentDirect)
+        public void SetBanDirect()
         {
-            switch (currentDirect)
+            switch (directSnake)
             {
                 case (int)Direction.Up:
                     banDirect = Direction.Down;

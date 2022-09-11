@@ -17,10 +17,15 @@ namespace Snake
         private Point location;
         private Random randomLocation = new Random();
         private Rectangle _Apple;
-
+        private Point UpperleftCornerApple;
         public Apple(int sizeApple)
         {
             this.sizeApple = sizeApple;
+        }
+        public Point UpperleftCorner
+        {
+            get { return UpperleftCornerApple; ; }
+            private set { UpperleftCornerApple = value; }
         }
         public Rectangle apple
         {
@@ -31,7 +36,7 @@ namespace Snake
         public Point Location
         {
             get { return location; }
-            set { location = value; }
+            private set { location = value; }
         }
          public void AddApple()
         {
@@ -46,11 +51,10 @@ namespace Snake
         }
         void CreateApple()
         {
-            _Apple.Width = sizeApple;
-            _Apple.Height = sizeApple;
+            UpperleftCornerApple.X = (SIZE_BLOCK - sizeApple) / 2;
+            UpperleftCornerApple.Y = (SIZE_BLOCK - sizeApple) / 2;
 
-            _Apple.X = Location.X + (SIZE_BLOCK - sizeApple) / 2;
-            _Apple.Y = Location.Y + (SIZE_BLOCK - sizeApple) / 2;
+            apple = new Rectangle(UpperleftCornerApple.X + location.X, UpperleftCornerApple.Y + location.Y, sizeApple, sizeApple);
         }
     }
 }
