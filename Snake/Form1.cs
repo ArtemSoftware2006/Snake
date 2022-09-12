@@ -32,7 +32,7 @@ namespace Snake
         Pen pen = new Pen(Color.Black, 4.0F);
         SolidBrush brash = new SolidBrush(Color.Red);
         SolidBrush eyesBrash = new SolidBrush(Color.Blue);
-        SnakeEyes snakeEyes = new SnakeEyes();
+        SnakeEyes snakeEyes = new SnakeEyes(8,5);
         DirectionSnake directSnake = new DirectionSnake();
         Apple smlApple = new Apple(20);
         Apple bgApple = new Apple(35);
@@ -158,8 +158,8 @@ namespace Snake
         {
             g.Clear(Color.White);
             Initializingpole();
-            DisplaySnakeEyes();
             g.FillRectangles(brash, snake.GetSnake());
+            DisplaySnakeEyes();
         }
         void IsAddBigApple()
         {
@@ -208,8 +208,8 @@ namespace Snake
         void DisplaySnakeEyes()
         {
             snakeEyes.SetEyes(directSnake.GetDerection(), snake.GetSnake());
-            g.FillRectangle(eyesBrash, snakeEyes.GetEyes(0));
-            g.FillRectangle(eyesBrash, snakeEyes.GetEyes(1));
+            g.FillEllipse(eyesBrash, snakeEyes.GetEyes(0));
+            g.FillEllipse(eyesBrash, snakeEyes.GetEyes(1));
         }
         void SnakeSetDirection()
         {
@@ -287,6 +287,11 @@ namespace Snake
         private void LabelScore_SizeChanged(object sender, EventArgs e)
         {
             LabelScore.Left = this.Width / 2 - LabelScore.Width / 2;
+        }
+
+        private void Fm_game_place_Load(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Normal;
         }
     }
 }

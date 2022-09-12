@@ -17,7 +17,7 @@ namespace Snake
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Fm_game_place());
+            Application.Run(new Fm_main());
         }
     }
 }

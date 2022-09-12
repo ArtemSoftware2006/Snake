@@ -29,47 +29,49 @@ namespace Snake
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.buttonStartGame = new System.Windows.Forms.Button();
+            this.buttonRecords = new System.Windows.Forms.Button();
+            this.buttonLevelHard = new System.Windows.Forms.Button();
+            this.buttonClose = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // button1
+            // buttonStartGame
             // 
-            this.button1.Location = new System.Drawing.Point(57, 76);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(201, 46);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Играть";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buttonStartGame.Location = new System.Drawing.Point(57, 76);
+            this.buttonStartGame.Name = "buttonStartGame";
+            this.buttonStartGame.Size = new System.Drawing.Size(201, 46);
+            this.buttonStartGame.TabIndex = 0;
+            this.buttonStartGame.Text = "Играть";
+            this.buttonStartGame.UseVisualStyleBackColor = true;
+            this.buttonStartGame.Click += new System.EventHandler(this.buttonStartGame_Click);
             // 
-            // button2
+            // buttonRecords
             // 
-            this.button2.Location = new System.Drawing.Point(57, 128);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(201, 46);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Рекорды";
-            this.button2.UseVisualStyleBackColor = true;
+            this.buttonRecords.Location = new System.Drawing.Point(57, 128);
+            this.buttonRecords.Name = "buttonRecords";
+            this.buttonRecords.Size = new System.Drawing.Size(201, 46);
+            this.buttonRecords.TabIndex = 1;
+            this.buttonRecords.Text = "Рекорды";
+            this.buttonRecords.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // buttonLevelHard
             // 
-            this.button3.Location = new System.Drawing.Point(57, 180);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(201, 46);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Сложность";
-            this.button3.UseVisualStyleBackColor = true;
+            this.buttonLevelHard.Location = new System.Drawing.Point(57, 180);
+            this.buttonLevelHard.Name = "buttonLevelHard";
+            this.buttonLevelHard.Size = new System.Drawing.Size(201, 46);
+            this.buttonLevelHard.TabIndex = 2;
+            this.buttonLevelHard.Text = "Сложность";
+            this.buttonLevelHard.UseVisualStyleBackColor = true;
             // 
-            // button4
+            // buttonClose
             // 
-            this.button4.Location = new System.Drawing.Point(57, 232);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(201, 46);
-            this.button4.TabIndex = 3;
-            this.button4.Text = "Выход";
-            this.button4.UseVisualStyleBackColor = true;
+            this.buttonClose.Location = new System.Drawing.Point(57, 232);
+            this.buttonClose.Name = "buttonClose";
+            this.buttonClose.Size = new System.Drawing.Size(201, 46);
+            this.buttonClose.TabIndex = 3;
+            this.buttonClose.Text = "Выход";
+            this.buttonClose.UseVisualStyleBackColor = true;
+            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
             // Fm_main
             // 
@@ -77,10 +79,10 @@ namespace Snake
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.ClientSize = new System.Drawing.Size(306, 366);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonClose);
+            this.Controls.Add(this.buttonLevelHard);
+            this.Controls.Add(this.buttonRecords);
+            this.Controls.Add(this.buttonStartGame);
             this.Name = "Fm_main";
             this.Text = "Form2";
             this.ResumeLayout(false);
@@ -89,9 +91,9 @@ namespace Snake
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button buttonStartGame;
+        private System.Windows.Forms.Button buttonRecords;
+        private System.Windows.Forms.Button buttonLevelHard;
+        private System.Windows.Forms.Button buttonClose;
     }
 }

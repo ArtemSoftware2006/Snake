@@ -13,8 +13,12 @@ namespace Snake
 {
     class SnakeEyes
     {
-        const int VALUE_SIDE_BLOCK = 40;
-        Rectangle[] eyesSnake = new Rectangle[2];
+        const float VALUE_SIDE_BLOCK = 40;
+        float sizeEyes;
+        float distanseFromSide;
+        RectangleF[] eyesSnake = new RectangleF[2];
+        PointF deltaFirstEye;
+        PointF deltaSecondEye;
         enum Direction
         {
             Up,
@@ -22,46 +26,50 @@ namespace Snake
             Right,
             Left
         }
-        public SnakeEyes()
+        public SnakeEyes(float sizeEyes,float distanseFromSide)
         {
-            eyesSnake[0].Width = 4;
-            eyesSnake[0].Height = 6;
-            eyesSnake[1].Width = 4;
-            eyesSnake[1].Height = 6;
+            this.distanseFromSide = distanseFromSide;
+            this.sizeEyes = sizeEyes;
+            eyesSnake[0].Width = sizeEyes;
+            eyesSnake[1].Width = sizeEyes;
+            eyesSnake[0].Height = sizeEyes;
+            eyesSnake[1].Height = sizeEyes;
         }
-        public void SetEyes(int direct, Rectangle[] snakeBody)
+        public void SetEyes(int direct,  Rectangle[] snakeBody)
+        {
+            SetDeltaEyes(direct);
+            eyesSnake[0].X = snakeBody[0].X + deltaFirstEye.X;
+            eyesSnake[0].Y = snakeBody[0].Y + deltaFirstEye.Y;
+            eyesSnake[1].X = snakeBody[0].X + deltaSecondEye.X;
+            eyesSnake[1].Y = snakeBody[0].Y + deltaSecondEye.Y;
+        }
+        void SetDeltaEyes(int direct)
         {
             switch (direct)
             {
                 case (int)Direction.Up:
-                    eyesSnake[0].X = snakeBody[0].X + 3;
-                    eyesSnake[0].Y = snakeBody[0].Y - 3;
-                    eyesSnake[1].X = snakeBody[0].X + VALUE_SIDE_BLOCK - 3;
-                    eyesSnake[1].Y = snakeBody[0].Y - 3;
+                    deltaFirstEye = new PointF(distanseFromSide, distanseFromSide);
+                    deltaSecondEye = new PointF(VALUE_SIDE_BLOCK - distanseFromSide - sizeEyes, distanseFromSide);
                     break;
                 case (int)Direction.Down:
-                    eyesSnake[0].X = snakeBody[0].X - 3;
-                    eyesSnake[0].Y = snakeBody[0].Y + VALUE_SIDE_BLOCK - 3;
-                    eyesSnake[1].X = snakeBody[0].X + VALUE_SIDE_BLOCK - 3;
-                    eyesSnake[1].Y = snakeBody[0].Y + VALUE_SIDE_BLOCK - 3;
+                    deltaFirstEye = new PointF(distanseFromSide, VALUE_SIDE_BLOCK - distanseFromSide - sizeEyes);
+                    deltaSecondEye = new PointF(VALUE_SIDE_BLOCK - distanseFromSide - sizeEyes, VALUE_SIDE_BLOCK
+                        - distanseFromSide - sizeEyes);
                     break;
                 case (int)Direction.Right:
-                    eyesSnake[0].X = snakeBody[0].X + VALUE_SIDE_BLOCK - 3;
-                    eyesSnake[0].Y = snakeBody[0].Y + 3;
-                    eyesSnake[1].X = snakeBody[0].X + VALUE_SIDE_BLOCK - 3;
-                    eyesSnake[1].Y = snakeBody[0].Y + VALUE_SIDE_BLOCK - 3;
+                    deltaFirstEye = new PointF(VALUE_SIDE_BLOCK - distanseFromSide - sizeEyes, distanseFromSide);
+                    deltaSecondEye = new PointF(VALUE_SIDE_BLOCK - distanseFromSide - sizeEyes, VALUE_SIDE_BLOCK
+                       - distanseFromSide - sizeEyes);
                     break;
                 case (int)Direction.Left:
-                    eyesSnake[0].X = snakeBody[0].X - 3;
-                    eyesSnake[0].Y = snakeBody[0].Y + 3;
-                    eyesSnake[1].X = snakeBody[0].X - 3;
-                    eyesSnake[1].Y = snakeBody[0].Y + VALUE_SIDE_BLOCK - 3;
+                    deltaFirstEye = new PointF(distanseFromSide, VALUE_SIDE_BLOCK - distanseFromSide - sizeEyes);
+                    deltaSecondEye = new PointF(distanseFromSide, distanseFromSide);
                     break;
                 default:
                     break;
             }
         }
-        public Rectangle GetEyes(int index)
+        public RectangleF GetEyes(int index)
         {
             return eyesSnake[index];
         }

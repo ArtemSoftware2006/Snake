@@ -86,6 +86,7 @@ namespace Snake
             this.KeyPreview = true;
             this.Name = "Fm_game_place";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Fm_game_place_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Fm_game_place_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

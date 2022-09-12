@@ -16,5 +16,17 @@ namespace Snake
         {
             InitializeComponent();
         }
+
+        private void buttonClose_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void buttonStartGame_Click(object sender, EventArgs e)
+        {
+            Fm_game_place f2 = new Fm_game_place();
+            WindowState = FormWindowState.Minimized;
+            f2.ShowDialog();
+        }
     }
 }
