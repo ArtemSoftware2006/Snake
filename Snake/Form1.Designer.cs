@@ -35,6 +35,7 @@ namespace Snake
             this.timer_game_cycle = new System.Windows.Forms.Timer(this.components);
             this.timer_starting_game = new System.Windows.Forms.Timer(this.components);
             this.timer_of_big_apple = new System.Windows.Forms.Timer(this.components);
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -42,7 +43,7 @@ namespace Snake
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.White;
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Location = new System.Drawing.Point(28, 53);
+            this.pictureBox1.Location = new System.Drawing.Point(25, 50);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(520, 520);
             this.pictureBox1.TabIndex = 0;
@@ -54,7 +55,7 @@ namespace Snake
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LabelScore.AutoSize = true;
             this.LabelScore.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.LabelScore.Location = new System.Drawing.Point(240, 9);
+            this.LabelScore.Location = new System.Drawing.Point(240, 4);
             this.LabelScore.Name = "LabelScore";
             this.LabelScore.Size = new System.Drawing.Size(106, 41);
             this.LabelScore.TabIndex = 1;
@@ -74,6 +75,10 @@ namespace Snake
             // timer_of_big_apple
             // 
             this.timer_of_big_apple.Tick += new System.EventHandler(this.timer_of_big_apple_Tick);
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Fm_game_place
             // 
@@ -101,6 +106,7 @@ namespace Snake
         private System.Windows.Forms.Timer timer_game_cycle;
         private System.Windows.Forms.Timer timer_starting_game;
         private System.Windows.Forms.Timer timer_of_big_apple;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

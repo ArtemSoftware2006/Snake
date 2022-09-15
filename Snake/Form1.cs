@@ -25,6 +25,8 @@ namespace Snake
             "До начала игры: ",
             "Игра окончена",
         };
+
+        MyProgressBar progressbar = new MyProgressBar(1, 18, Color.Red, new Point(85, 18));
         Snake snake = new Snake();
         GameSpace pole;
         Graphics g;
@@ -71,7 +73,7 @@ namespace Snake
             Initializingpole();
             snake.InitializingSnake();
             g.FillRectangles(brash, snake.GetSnake());
-            NewAppleOnForm(smlApple);
+            NewAppleOnForm(ref smlApple);
             DisplaySnakeEyes();
             pictureBox1.Image = bmp;
             currentApple = smlApple.apple;
@@ -88,12 +90,12 @@ namespace Snake
             {
                 if (apple.apple.X == snake.GetSnake()[i].X && (apple.apple.Y == snake.GetSnake()[i].Y))
                 {
-                    NewAppleOnForm(apple);
+                    NewAppleOnForm(ref apple);
                     break;
                 }
             }
         }
-        void NewAppleOnForm(Apple apple)
+        void NewAppleOnForm(ref Apple apple)
         {
             apple.AddApple();
             CheckLocationApple(ref apple);
@@ -165,12 +167,27 @@ namespace Snake
         {
             if (counterEatedApple % 2 == 0)
             {
-                NewAppleOnForm(bgApple);
+                NewAppleOnForm(ref bgApple);
                 AddBigappleFlag = true;
+
                 timer_of_big_apple.Interval = 500;
                 timer_of_big_apple.Start();
+
                 counterEatedApple++;
                 SetCurrentApple(ref bgApple);
+
+                LabelScore.Visible = false;
+
+                progressbar.WidghStep = 20;
+                progressbar.Maximum = 20;
+                progressbar.Value = 0;
+                progressbar.Direction = -1;
+                progressbar.Step = 1;
+                progressbar.ShowProgressBar();
+                this.Controls.Add(progressbar.GetProgressBar());
+
+                timer1.Interval = 1000;
+                timer1.Start();
             }
         }
         void SetPointsForBigApple()
@@ -186,9 +203,12 @@ namespace Snake
                 {
                     timer_of_big_apple.Stop();
                     SetPointsForBigApple();
-                    NewAppleOnForm(smlApple);
+                    NewAppleOnForm(ref smlApple);
                     snake.SnakeMoveAndGrow();
                     AddBigappleFlag = false;
+                    progressbar.HideProgressBar();
+                    LabelScore.Visible = true;
+                    timer1.Stop();
                 }
                 else
                 {
@@ -196,7 +216,7 @@ namespace Snake
                     LabelScore.Text = ListMessages[0] + Convert.ToString(allPoints);
                     counterEatedApple++;
                     snake.SnakeMoveAndGrow();
-                    NewAppleOnForm(smlApple);
+                    NewAppleOnForm(ref smlApple);
                 }
                 SetCurrentApple(ref smlApple);
             }
@@ -258,8 +278,11 @@ namespace Snake
             {
                 timer_of_big_apple.Stop();
                 SetPointsForBigApple();
-                NewAppleOnForm(smlApple);
+                NewAppleOnForm(ref smlApple);
                 TimeForEatBigApple = 20.0F;
+                progressbar.HideProgressBar();
+                LabelScore.Visible = true;
+                timer1.Stop();
             }
             GameOneCadr();
             FlashingApple(ref currentApple,ref smlApple, ref bgApple);
@@ -292,6 +315,11 @@ namespace Snake
         private void Fm_game_place_Load(object sender, EventArgs e)
         {
             WindowState = FormWindowState.Normal;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            progressbar.PerformStep();
         }
     }
 }
