@@ -24,8 +24,9 @@ namespace Snake
             "Счёт: ",
             "До начала игры: ",
             "Игра окончена",
+            "Вы поставили новый рекорд ",
         };
-
+        RecordstManager records = RecordstManager.GetInstance();
         MyProgressBar progressbar = new MyProgressBar(1, 18, Color.Red, new Point(85, 18));
         Snake snake = new Snake();
         GameSpace pole;
@@ -186,8 +187,8 @@ namespace Snake
                 progressbar.ShowProgressBar();
                 this.Controls.Add(progressbar.GetProgressBar());
 
-                timer1.Interval = 1000;
-                timer1.Start();
+                timer_progressbar.Interval = 1000;
+                timer_progressbar.Start();
             }
         }
         void SetPointsForBigApple()
@@ -206,9 +207,9 @@ namespace Snake
                     NewAppleOnForm(ref smlApple);
                     snake.SnakeMoveAndGrow();
                     AddBigappleFlag = false;
-                    progressbar.HideProgressBar();
-                    LabelScore.Visible = true;
-                    timer1.Stop();
+                    ShowLabelScore();
+                    timer_progressbar.Stop();
+                    TimeForEatBigApple = 20.0F;
                 }
                 else
                 {
@@ -280,9 +281,8 @@ namespace Snake
                 SetPointsForBigApple();
                 NewAppleOnForm(ref smlApple);
                 TimeForEatBigApple = 20.0F;
-                progressbar.HideProgressBar();
-                LabelScore.Visible = true;
-                timer1.Stop();
+                ShowLabelScore();
+                timer_progressbar.Stop();
             }
             GameOneCadr();
             FlashingApple(ref currentApple,ref smlApple, ref bgApple);
@@ -298,14 +298,32 @@ namespace Snake
                     snake.GetSnake()[0].Y <= 0)
                 {
                     Game_Over();
+                    break;
                 }
             }
         }
         void Game_Over()
         {
+            ShowLabelScore();
+            records.SetRecord(allPoints);
+            if (records.GetRecords()[records.GetRecords().Count - 1] <= allPoints)
+            {
+                LabelScore.Text = ListMessages[3] + Convert.ToString(allPoints);
+            }
+            else
+            {
+                LabelScore.Text = ListMessages[2] + ListMessages[0] + Convert.ToString(allPoints);
+            }
+            records.UpdatingRecords();
             timer_game_cycle.Stop();
             timer_of_big_apple.Stop();
-            LabelScore.Text = ListMessages[2];
+            timer_progressbar.Stop();
+        }
+        void ShowLabelScore()
+        {
+            progressbar.HideProgressBar();
+            progressbar.StopAndUpdatingProdBar();
+            LabelScore.Visible = true;
         }
         private void LabelScore_SizeChanged(object sender, EventArgs e)
         {

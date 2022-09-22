@@ -77,6 +77,19 @@ namespace Snake
                 progressBar.Width = Maximum;
             }
         }
+        public void StopAndUpdatingProdBar()
+        {
+            counterStep = 1;
+            if (direction == 1)
+            {
+                ProgressBarIncrease();
+            }
+            else
+            {
+                ProgressBarIncrease();
+            }
+        }
+
         public void ShowProgressBar()
         {
             progressBar.Visible = true;

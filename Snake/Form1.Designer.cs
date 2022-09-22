@@ -35,7 +35,7 @@ namespace Snake
             this.timer_game_cycle = new System.Windows.Forms.Timer(this.components);
             this.timer_starting_game = new System.Windows.Forms.Timer(this.components);
             this.timer_of_big_apple = new System.Windows.Forms.Timer(this.components);
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timer_progressbar = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -76,9 +76,9 @@ namespace Snake
             // 
             this.timer_of_big_apple.Tick += new System.EventHandler(this.timer_of_big_apple_Tick);
             // 
-            // timer1
+            // timer_progressbar
             // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.timer_progressbar.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Fm_game_place
             // 
@@ -106,7 +106,7 @@ namespace Snake
         private System.Windows.Forms.Timer timer_game_cycle;
         private System.Windows.Forms.Timer timer_starting_game;
         private System.Windows.Forms.Timer timer_of_big_apple;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer timer_progressbar;
     }
 }
 
