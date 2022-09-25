@@ -66,6 +66,7 @@ namespace Snake
             this.buttonLevelHard.TabIndex = 2;
             this.buttonLevelHard.Text = "Сложность";
             this.buttonLevelHard.UseVisualStyleBackColor = false;
+            this.buttonLevelHard.Click += new System.EventHandler(this.buttonLevelHard_Click);
             // 
             // buttonClose
             // 

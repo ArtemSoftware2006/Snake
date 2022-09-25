@@ -55,6 +55,18 @@ namespace Snake
             Right,
             Left
         }
+        enum Levels
+        {
+            Easy,
+            Normal,
+            Hard
+        }
+        enum LevelsTiming
+        {
+            Easy = 1000,
+            Normal = 666,
+            Hard = 450
+        }
         public Fm_game_place()
         {
             InitializeComponent();
@@ -117,11 +129,28 @@ namespace Snake
             {
                 timer_starting_game.Stop();
                 LabelScore.Text = ListMessages[0] + "0";
+                FixedTimingGameCycle();
                 timer_game_cycle.Start();
             }
             countDown--;
         }
-       
+       void FixedTimingGameCycle()
+        {
+            switch (records.Level)
+            {
+                case (int)Levels.Easy:
+                    timer_game_cycle.Interval = (int)LevelsTiming.Easy;
+                    break;
+                case (int)Levels.Normal:
+                    timer_game_cycle.Interval = (int)LevelsTiming.Normal;
+                    break;
+                case (int)Levels.Hard:
+                    timer_game_cycle.Interval = (int)LevelsTiming.Hard;
+                    break;
+                default:
+                    throw new Exception("Ошибка системы, выбранного сложности уровня нет");
+            }
+        }
         void Fm_game_place_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyValue)

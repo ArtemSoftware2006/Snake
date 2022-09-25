@@ -82,5 +82,17 @@ namespace Snake.Properties {
                 this["Fifth_result"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Level {
+            get {
+                return ((int)(this["Level"]));
+            }
+            set {
+                this["Level"] = value;
+            }
+        }
     }
 }
